@@ -1,4 +1,4 @@
-# ipp_backoffice
+# Proomo_backoffice
 
 > A Vue.js project
 
