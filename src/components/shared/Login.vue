@@ -6,7 +6,7 @@
           <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
               <v-card class="elevation-12">
-                <v-toolbar dark color="deep-purple darken-4">
+                <v-toolbar dark color="red darken-1">
                   <v-toolbar-title>Iniciar Sesión</v-toolbar-title>
                   <v-spacer></v-spacer>
                 </v-toolbar>
@@ -30,7 +30,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn
-                    color="deep-purple darken-4"
+                    color="red darken-1"
                     style="color: #fff"
                     @click="login()">Ingresar</v-btn>
                 </v-card-actions>

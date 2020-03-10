@@ -52,10 +52,10 @@
           </template>
         </v-list>
       </v-navigation-drawer>
-      <v-toolbar color="deep-purple darken-4" app absolute clipped-left style="color: white">
+      <v-toolbar color="red darken-1" app absolute clipped-left style="color: white">
         <v-toolbar-side-icon @click.native="drawer = !drawer" color="white"></v-toolbar-side-icon>
         <!-- <img src="https://ocgdd.s3-us-west-2.amazonaws.com/Carlos-Granados-Logotipo.jpg" alt=""> -->
-        <span class="title ml-3 mr-5">Organización Carlos Granados Dental Design</span></span>
+        <span class="title ml-3 mr-5">Proomo</span></span>
         <v-spacer></v-spacer>
       </v-toolbar>
       <v-content>
@@ -79,9 +79,19 @@ export default {
     return{
       drawer: null,
       items: [
-        { icon: 'view_quilt', text: 'Sección', route: 'sections' },
+        { icon: 'view_quilt', text: 'Comercios', route: 'comercios' },
         { divider: true },
-        { icon: 'note', text: 'Artículos', route: 'articles' },
+        { icon: 'note', text: 'Categorias', route: 'categorias' },
+        { divider: true },
+        { icon: 'view_quilt', text: 'Cupones', route: 'cupones' },
+        { divider: true },
+        { icon: 'view_quilt', text: 'Anuncios', route: 'anuncios' },
+        { divider: true },
+        { icon: 'view_quilt', text: 'Ofertas', route: 'ofertas' },
+        { divider: true },
+        { icon: 'view_quilt', text: 'Productos', route: 'productos' },
+        { divider: true },
+        { icon: 'view_quilt', text: 'Notificaciones', route: 'notificaciones' },
         { divider: true },
         // { icon: 'view_carousel', text: 'Slides', route: 'clients' },
         // { divider: true },
