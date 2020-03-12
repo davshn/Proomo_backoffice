@@ -62,7 +62,7 @@ export default {
         this.$http.get('commerces/'+this.$route.params.id,
         ).then(function(response){
           console.log(response);
-          this.commerce = response.body.data
+          this.commerce = response.body.data;
           console.log("Congrats");
         },function(response){
           console.log("Error");

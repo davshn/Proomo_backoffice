@@ -43,7 +43,7 @@ export default [
   { path: '/notificaciones/crear', component: NuevaNotificacion, name: 'crear_notificacion' },
 
   { path: '/ofertas', component: Ofertas, name: 'ofertas' },
-  { path: '/ofertas/crear', component: NuevaOferta, name: 'nueva_oferta' },
+  { path: '/ofertas/crear', component: NuevaOferta, name: 'crear_oferta' },
   { path: '/ofertas/:id/editar', component: EditarOferta, name: 'editar_oferta' },
 
   { path: '/productos', component: Productos, name: 'productos' },
