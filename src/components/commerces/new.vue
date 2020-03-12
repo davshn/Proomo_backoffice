@@ -4,7 +4,7 @@
     <section >
       <label for=""><b>Nombre</b></label>
       <v-text-field
-        v-model="commerce.title"
+        v-model="commerce.name"
         label="Nombre"
       ></v-text-field>
       <label for=""><b>Descripción</b></label>
@@ -58,7 +58,7 @@ export default {
   methods:{
     findCommerces(){
       try {
-        this.$http.get('commerces/',
+        this.$http.get('commerces',
         ).then(function(response){
           console.log(response);
           this.commerces = response.body.data
@@ -82,6 +82,7 @@ export default {
       }
     },
     createCommerce(){
+      console.log("PAREEEEEEEEE");
       if(this.validateCommerce()){
         try {
           this.$http.post('commerces/', {
@@ -118,7 +119,7 @@ export default {
       var vm = this
       reader.readAsDataURL(file);
       reader.onload = function () {
-        vm.advertisement.image = reader.result
+        vm.commerce.image = reader.result
       }
     },
   },

@@ -64,9 +64,9 @@ export default {
         console.log(e);
       }
     },
-    validateAdvertisement(){
-      if(this.advertisement.name != '' &&
-         this.advertisement.image != null){
+    validateCategory(){
+      if(this.category.name != '' &&
+         this.category.image != null){
         return true
       } else {
         return false

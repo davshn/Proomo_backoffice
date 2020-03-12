@@ -13,7 +13,7 @@
           <td
             class="text-xs-center"
             @click="$router.push({name: 'editar_categoria', params:{id: props.item.id}})">
-            {{ props.item.title.es}}
+            {{ props.item.name}}
           </td>
         </template>
       </v-data-table>
@@ -38,25 +38,25 @@ export default {
     }
   },
   mounted(){
-    // this.findSections()
+    this.findCategories()
   },
   methods:{
-    // findSections(){
-    //   try {
-    //     this.$http.get('section/',
-    //     ).then(function(response){
-    //       this.sections = response.body.sections
-    //       console.log("Congrats");
-    //       console.log(response);
-    //     },function(response){
-    //       console.log("Error");
-    //       console.log(response);
-    //     })
-    //   } catch (e) {
-    //     console.log("Error");
-    //     console.log(e);
-    //   }
-    // }
+    findCategories(){
+      try {
+        this.$http.get('categories',
+        ).then(function(response){
+          this.categories = response.body.data
+          console.log("Congrats");
+          console.log(response);
+        },function(response){
+          console.log("Error");
+          console.log(response);
+        })
+      } catch (e) {
+        console.log("Error");
+        console.log(e);
+      }
+    }
   }
 }
 </script>
