@@ -1,31 +1,40 @@
 <template>
   <article class="">
-    <h3>Crear Oferta</h3>
+    <h3>Crear Comercio</h3>
     <section >
-      <v-select
-        v-model="coupon.client_id"
-        :items="clients"
-        item-text="email"
-        item-value="id"
-        label="Cliente"
-      ></v-select>
-      <v-select
-        v-model="coupon.offer_id"
-        :items="offers"
-        item-text="title"
-        item-value="id"
-        label="Offer"
-      ></v-select>
-      <v-select
-        v-model="coupon.offer_id"
-        :items="commerces"
-        item-text="name"
-        item-value="id"
-        label="Select"
-      ></v-select>
+      <label for=""><b>Nombre</b></label>
+      <v-text-field
+        v-model="commerce.title"
+        label="Nombre"
+      ></v-text-field>
+      <label for=""><b>Descripción</b></label>
+      <v-text-field
+        v-model="commerce.description"
+        label="Descripción"
+        multi-line
+      ></v-text-field>
+
+      <label for=""><b>Imagen</b></label>
+      <div class="trainers__form--photo_container">
+        <label
+          for="commercePhoto"
+          style="
+          width: 160px;
+          height: 34px;"
+          class="trainers__form--photo_button">Examinar</label>
+        <input
+          id="commercePhoto"
+          type="file"
+          @change="onFileChange"
+          name="logo">
+        <p v-if="!url_change">{{ photo_name }}</p>
+      </div>
+      <v-flex xs12 style="margin: 25px 0; text-align: center;">
+        <img :src="url" alt="" width="400px"/>
+      </v-flex>
       <v-btn
-        @click="createOffer()">Crear</v-btn>
-      <v-btn @click="$router.push({name: 'coupons'})">Cancelar</v-btn>
+        @click="createCommerce()">Crear</v-btn>
+      <v-btn @click="$router.push({name: 'comercios'})">Cancelar</v-btn>
     </section>
   </article>
 </template>
@@ -34,21 +43,25 @@
 export default {
   data(){
     return {
+      photo_name: 'No se han seleccionado archivos',
+      url_change: false,
+      url:'https://s3-us-west-2.amazonaws.com/karrottsportlife/default_image.svg',
       commerces:[],
       commerce_selected: null,
-      coupon:{
-        title: '',
-        offer_id: null
+      commerce:{
+        name: '',
+        description: '',
+        image: null
       }
     }
   },
   methods:{
-    findOffers(){
+    findCommerces(){
       try {
-        this.$http.get('offers',
+        this.$http.get('commerces/',
         ).then(function(response){
           console.log(response);
-          this.offers = response.body.data
+          this.commerces = response.body.data
           console.log("Congrats");
         },function(response){
           console.log("Error");
@@ -59,42 +72,27 @@ export default {
         console.log(e);
       }
     },
-    findClients(){
-      try {
-        this.$http.get('clients',
-        ).then(function(response){
-          console.log(response);
-          this.clients = response.body.data
-          console.log("Congrats");
-        },function(response){
-          console.log("Error");
-          console.log(response);
-        })
-      } catch (e) {
-        console.log("Error");
-        console.log(e);
-      }
-    },
-    validateOffer(){
-      if(this.coupon.title != '' &&
-         this.coupon.offer_id != null){
+    validateCommerce(){
+      if(this.commerce.name != '' &&
+         this.commerce.description != '' &&
+         this.commerce.image != null){
         return true
       } else {
         return false
       }
     },
-    createOffer(){
-      if(this.validateOffer()){
+    createCommerce(){
+      if(this.validateCommerce()){
         try {
-          this.$http.post('coupons', {
+          this.$http.post('commerces/', {
             data:{
-              attributes: this.coupon
+              attributes: this.commerce
             }
           }
           ).then(function(response){
             console.log("Update");
             console.log(response);
-            this.$router.push({name: 'coupons'})
+            this.$router.push({name: 'comercios'})
           },function(response){
             console.log("Error");
             console.log(response);
@@ -107,10 +105,30 @@ export default {
         alert('Por favor, verifique los valores indexados')
       }
     },
+    onFileChange (e) {
+      var files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        return
+      }
+      this.url = URL.createObjectURL(files[0]);
+      this.createImage(files[0])
+    },
+    createImage (file, name_field) {
+      var reader = new FileReader()
+      var vm = this
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        vm.advertisement.image = reader.result
+      }
+    },
+  },
+  watch:{
+    url(){
+      this.url_change = true;
+    },
   },
   mounted(){
-    this.findClients();
-    this.findOffers();
+    // this.findCommerces()
   }
 }
 </script>

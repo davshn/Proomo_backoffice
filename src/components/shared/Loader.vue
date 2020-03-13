@@ -1,7 +1,8 @@
 <template>
   <article class="loader" v-if="getLoader()">
     <section class="loader__container">
-      <img src="https://ocgdd.s3-us-west-2.amazonaws.com/Carlos+Granados+Logotipo+blanco-02.svg" alt="">
+      <p style="color: #fff; font-size: 24px; text-align: center;">Cargando...</p>
+      <!-- <img src="https://ocgdd.s3-us-west-2.amazonaws.com/Carlos+Granados+Logotipo+blanco-02.svg" alt=""> -->
     </section>
   </article>
 </template>
