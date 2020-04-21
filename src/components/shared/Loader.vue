@@ -1,7 +1,7 @@
 <template>
   <article class="loader" v-if="getLoader()">
     <section class="loader__container">
-      <img src="https://ocgdd.s3-us-west-2.amazonaws.com/Carlos+Granados+Logotipo+blanco-02.svg" alt="">
+      <app-logo></app-logo>
     </section>
   </article>
 </template>
@@ -26,7 +26,7 @@ export default {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.7);
+  background: rgba(255,255,255,0.7);
   top: 0;
   left: 0;
   right: 0;
@@ -45,7 +45,7 @@ export default {
   align-items: center;
   justify-content: center,
 }
-.loader__container img{
+.loader__container svg{
   width: 70%;
   height: auto;
   margin: 0 auto;

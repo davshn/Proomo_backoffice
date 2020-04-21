@@ -55,7 +55,7 @@
       <v-toolbar color="red darken-1" app absolute clipped-left style="color: white">
         <v-toolbar-side-icon @click.native="drawer = !drawer" color="white"></v-toolbar-side-icon>
         <!-- <img src="https://ocgdd.s3-us-west-2.amazonaws.com/Carlos-Granados-Logotipo.jpg" alt=""> -->
-        <span class="title ml-3 mr-5">Proomo</span></span>
+        <span class="title ml-3 mr-5">Twenti</span></span>
         <v-spacer></v-spacer>
       </v-toolbar>
       <v-content>
@@ -89,8 +89,8 @@ export default {
         { divider: true },
         { icon: 'view_quilt', text: 'Ofertas', route: 'ofertas' },
         { divider: true },
-        { icon: 'view_quilt', text: 'Productos', route: 'productos' },
-        { divider: true },
+        // { icon: 'view_quilt', text: 'Productos', route: 'productos' },
+        // { divider: true },
         { icon: 'view_quilt', text: 'Notificaciones', route: 'notificaciones' },
         { divider: true },
         // { icon: 'view_carousel', text: 'Slides', route: 'clients' },
