@@ -66,8 +66,18 @@ export default {
           }
           ).then(function(response){
             console.log("Create Session");
-            console.log(response);
+            // console.log(response);
+            if(response.body.data.attributes.commerce_ref != null &&
+               response.body.data.attributes.commerce_ref != undefined ){
+                 this.updateSuperAdmin(false)
+                 this.updateCommerceRef(response.body.data.attributes.commerce_ref)
+               }else{
+                 this.updateSuperAdmin(true)
+                 this.updateCommerceRef(null)
+               }
             this.updateLogin(false)
+            console.log("<----------------Super Admin");
+            console.log(this.getSuperAdmin());
             this.$router.push({name: 'categorias'})
           },function(response){
             console.log("Error");

@@ -13,7 +13,7 @@
           <td
             class="text-xs-center"
             @click="$router.push({name: 'editar_cupon', params:{id: props.item.id}})">
-            {{ props.item.title.es}}
+            {{ props.item.title}}
           </td>
         </template>
       </v-data-table>
@@ -38,25 +38,25 @@ export default {
     }
   },
   mounted(){
-    // this.findSections()
+    this.findSections()
   },
   methods:{
-    // findSections(){
-    //   try {
-    //     this.$http.get('section/',
-    //     ).then(function(response){
-    //       this.sections = response.body.sections
-    //       console.log("Congrats");
-    //       console.log(response);
-    //     },function(response){
-    //       console.log("Error");
-    //       console.log(response);
-    //     })
-    //   } catch (e) {
-    //     console.log("Error");
-    //     console.log(e);
-    //   }
-    // }
+    findSections(){
+      try {
+        this.$http.get('offers/',
+        ).then(function(response){
+          this.coupons = response.body.data
+          console.log("Congrats");
+          console.log(response);
+        },function(response){
+          console.log("Error");
+          console.log(response);
+        })
+      } catch (e) {
+        console.log("Error");
+        console.log(e);
+      }
+    }
   }
 }
 </script>

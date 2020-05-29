@@ -65,7 +65,7 @@
               </v-flex>
             </v-layout> -->
             <v-list-tile
-              @click="updateLogin(true)"
+              @click="updateSuperAdmin(true); updateCommerceRef(null); updateLogin(true)"
             >
               <v-list-tile-action>
                 <v-icon>close</v-icon>
@@ -106,16 +106,16 @@ export default {
     return{
       drawer: null,
       items: [
-        { icon: 'view_quilt', text: 'Comercios', route: 'comercios' },
-        { divider: true },
         { icon: 'note', text: 'Categorias', route: 'categorias' },
+        { divider: true },
+        { icon: 'view_quilt', text: 'Comercios', route: 'comercios' },
         { divider: true },
         { icon: 'view_quilt', text: 'Cupones', route: 'cupones' },
         { divider: true },
         { icon: 'view_quilt', text: 'Anuncios', route: 'anuncios' },
         { divider: true },
-        { icon: 'view_quilt', text: 'Ofertas', route: 'ofertas' },
-        { divider: true },
+        // { icon: 'view_quilt', text: 'Ofertas', route: 'ofertas' },
+        // { divider: true },
         // { icon: 'view_quilt', text: 'Productos', route: 'productos' },
         // { divider: true },
         { icon: 'view_quilt', text: 'Notificaciones', route: 'notificaciones' },

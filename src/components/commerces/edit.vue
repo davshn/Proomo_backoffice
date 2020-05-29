@@ -14,6 +14,22 @@
         multi-line
       ></v-text-field>
 
+
+      <label for=""><b>Categorias</b></label>
+      <v-flex xs12>
+        <v-select
+          :items="categories"
+          v-model="selected_categories"
+          label="Seleccione las categorias"
+          multiple
+          max-height="400"
+          persistent-hint
+          item-text="name"
+          item-value="id"
+        ></v-select>
+      </v-flex>
+
+
       <label for=""><b>Imagen</b></label>
       <div class="trainers__form--photo_container">
         <label
@@ -32,8 +48,25 @@
       <v-flex xs12 style="margin: 25px 0; text-align: center;">
         <img :src="url" alt="" width="400px"/>
       </v-flex>
+
+      <label for=""><b>Usuario administrador</b></label>
+      <v-text-field
+        v-model="admin_user.email"
+        label="Email"
+      ></v-text-field>
+      <label for=""><b>Contraseña</b></label>
+      <v-text-field
+        v-model="admin_user.password"
+        label="Contraseña"
+      ></v-text-field>
+
+      <v-switch
+        v-if="this.getSuperAdmin()"
+        :label="`Publicar: ${commerce.published ? 'Si' : 'No'}`"
+        v-model="commerce.published"
+      ></v-switch>
       <v-btn
-        @click="createCommerce()">Editar</v-btn>
+        @click="editCommerce()">Editar</v-btn>
       <v-btn @click="$router.push({name: 'comercios'})">Cancelar</v-btn>
     </section>
   </article>
@@ -48,21 +81,47 @@ export default {
       url:'https://s3-us-west-2.amazonaws.com/karrottsportlife/default_image.svg',
       commerces:[],
       commerce_selected: null,
+      categories:[],
+      selected_categories:[],
       commerce:{
         id:'',
         name: '',
         description: '',
-        image: null
+        image: null,
+        published:false
+      },
+      admin_user:{
+        email:"",
+        password:""
       }
     }
   },
   methods:{
+    findCategories(){
+      try {
+        this.$http.get('categories',
+        ).then(function(response){
+          console.log(response);
+          this.categories = response.body.data
+          console.log("Congrats");
+        },function(response){
+          console.log("Error");
+          console.log(response);
+        })
+      } catch (e) {
+        console.log("Error");
+        console.log(e);
+      }
+    },
     findCommerces(){
       try {
         this.$http.get('commerces/'+this.$route.params.id,
         ).then(function(response){
           console.log(response);
-          this.commerce = response.body.data;
+          this.commerce = response.body.data.attributes;
+          this.selected_categories = this.commerce.category_ids
+          this.url = this.getServer() + this.commerce.image.url
+          this.admin_user.email = this.commerce.admin_user ? this.commerce.admin_user.email : ''
           console.log("Congrats");
         },function(response){
           console.log("Error");
@@ -82,26 +141,36 @@ export default {
         return false
       }
     },
-    createCommerce(){
+    validateUser(){
+      if(this.admin_user.email != '' &&
+         this.admin_user.password != ''){
+        return true
+      } else {
+        return false
+      }
+    },
+    editCommerce(){
       if(this.validateCommerce()){
-        // try {
-        //   this.$http.post('commerces/', {
-        //     data:{
-        //       attributes: this.commerce
-        //     }
-        //   }
-        //   ).then(function(response){
-        //     console.log("Update");
-        //     console.log(response);
-        //     this.$router.push({name: 'comercios'})
-        //   },function(response){
-        //     console.log("Error");
-        //     console.log(response);
-        //   })
-        // } catch (e) {
-        //   console.log("Error");
-        //   console.log(e);
-        // }
+        try {
+          this.$http.put('commerces/'+this.$route.params.id, {
+            data:{
+              attributes: this.commerce,
+              category_ids: this.selected_categories,
+              user: this.validateUser() ? this.admin_user : null
+            }
+          }
+          ).then(function(response){
+            console.log("Update");
+            console.log(response);
+            this.$router.push({name: 'comercios'})
+          },function(response){
+            console.log("Error");
+            console.log(response);
+          })
+        } catch (e) {
+          console.log("Error");
+          console.log(e);
+        }
       } else {
         alert('Por favor, verifique los valores indexados')
       }
@@ -129,6 +198,7 @@ export default {
     },
   },
   mounted(){
+    this.findCategories()
     this.findCommerces()
   }
 }

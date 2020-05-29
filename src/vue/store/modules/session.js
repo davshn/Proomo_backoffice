@@ -4,7 +4,9 @@ const state = {
   login: true,
   user: "admin@twenti.com",
   password: "Twent14dm1n",
-  server: "http://192.168.0.7:4000/"
+  server: "http://192.168.0.7:4000/",
+  super_admin: true,
+  commerce_ref: null
   // user: 'admin@carlosgranadosdentaldesign.com',
   // password: '4dm1nOcgdd'
 }
@@ -27,6 +29,12 @@ const getters = {
   },
   getServer (state){
     return state.server
+  },
+  getSuperAdmin (state){
+    return state.super_admin
+  },
+  getCommerceRef (state){
+    return state.commerce_ref
   }
 }
 
@@ -48,6 +56,12 @@ const mutations = {
   },
   setServer: function (state, payload) {
     state.server = payload
+  },
+  setSuperAdmin: function (state, payload) {
+    state.super_admin = payload
+  },
+  setCommerceRef: function (state, payload) {
+    state.commerce_ref = payload
   }
 }
 
@@ -69,6 +83,12 @@ const actions = {
   },
   updateServer: function ({commit}, payload) {
     commit('setServer', payload)
+  },
+  updateSuperAdmin: function ({commit}, payload) {
+    commit('setSuperAdmin', payload)
+  },
+  updateCommerceRef: function ({commit}, payload) {
+    commit('setCommerceRef', payload)
   }
 }
 

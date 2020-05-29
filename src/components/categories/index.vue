@@ -20,6 +20,7 @@
     </div>
     <div class="" style="text-align: right; margin-top: 50px;">
       <v-btn
+        v-if="getSuperAdmin()"
         @click="$router.push({name: 'crear_categoria'})"
         color="red darken-1"
         style="color: #fff">Crear Categoría</v-btn>

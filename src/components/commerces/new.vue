@@ -13,7 +13,19 @@
         label="Descripción"
         multi-line
       ></v-text-field>
-
+      <label for=""><b>Categorias</b></label>
+      <v-flex xs12>
+        <v-select
+          :items="categories"
+          v-model="selected_categories"
+          label="Seleccione las categorias"
+          multiple
+          max-height="400"
+          persistent-hint
+          item-text="name"
+          item-value="id"
+        ></v-select>
+      </v-flex>
       <label for=""><b>Imagen</b></label>
       <div class="trainers__form--photo_container">
         <label
@@ -32,6 +44,21 @@
       <v-flex xs12 style="margin: 25px 0; text-align: center;">
         <img :src="url" alt="" width="400px"/>
       </v-flex>
+      <label for=""><b>Usuario administrador</b></label>
+      <v-text-field
+        v-model="admin_user.email"
+        label="Email"
+      ></v-text-field>
+      <label for=""><b>Contraseña</b></label>
+      <v-text-field
+        v-model="admin_user.password"
+        label="Contraseña"
+      ></v-text-field>
+      <v-switch
+        v-if="this.getSuperAdmin()"
+        :label="`Publicar: ${commerce.published ? 'Si' : 'No'}`"
+        v-model="commerce.published"
+      ></v-switch>
       <v-btn
         @click="createCommerce()">Crear</v-btn>
       <v-btn @click="$router.push({name: 'comercios'})">Cancelar</v-btn>
@@ -48,20 +75,27 @@ export default {
       url:'https://s3-us-west-2.amazonaws.com/karrottsportlife/default_image.svg',
       commerces:[],
       commerce_selected: null,
+      categories:[],
+      selected_categories:[],
       commerce:{
         name: '',
         description: '',
-        image: null
+        image: null,
+        published:false
+      },
+      admin_user:{
+        email: '',
+        password: ''
       }
     }
   },
   methods:{
-    findCommerces(){
+    findCategories(){
       try {
-        this.$http.get('commerces',
+        this.$http.get('categories',
         ).then(function(response){
           console.log(response);
-          this.commerces = response.body.data
+          this.categories = response.body.data
           console.log("Congrats");
         },function(response){
           console.log("Error");
@@ -75,7 +109,9 @@ export default {
     validateCommerce(){
       if(this.commerce.name != '' &&
          this.commerce.description != '' &&
-         this.commerce.image != null){
+         this.commerce.image != null &&
+         this.admin_user.email != "" &&
+         this.admin_user.password != ""){
         return true
       } else {
         return false
@@ -87,7 +123,9 @@ export default {
         try {
           this.$http.post('commerces/', {
             data:{
-              attributes: this.commerce
+              attributes: this.commerce,
+              user: this.admin_user,
+              category_ids: this.selected_categories
             }
           }
           ).then(function(response){
@@ -127,9 +165,12 @@ export default {
     url(){
       this.url_change = true;
     },
+    selected_categories(){
+      console.log(this.selected_categories);
+    }
   },
   mounted(){
-    // this.findCommerces()
+    this.findCategories()
   }
 }
 </script>

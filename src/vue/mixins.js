@@ -8,14 +8,18 @@ Vue.mixin({
       "updateLogin",
       "updateUser",
       "updatePassword",
-      "updateServer"
+      "updateServer",
+      "updateSuperAdmin",
+      "updateCommerceRef"
     ]),
     ...mapGetters([
       "getLoader",
       "getLogin",
       "getUser",
       "getPassword",
-      "getServer"
+      "getServer",
+      "getSuperAdmin",
+      "getCommerceRef"
     ])
   }
 })

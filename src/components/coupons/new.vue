@@ -1,18 +1,53 @@
 <template>
   <article class="">
-    <h3>Crear Comercio</h3>
+    <h3>Crear Cupón</h3>
     <section >
+
+      <label for=""><b>Categorias</b></label>
+      <v-flex xs12>
+        <v-select
+          v-if="getSuperAdmin()"
+          :items="commerces"
+          v-model="coupon.commerce_id"
+          label="Seleccione el comercio al que pertenece"
+          max-height="400"
+          persistent-hint
+          item-text="name"
+          item-value="id"
+        ></v-select>
+      </v-flex>
+
       <label for=""><b>Nombre</b></label>
       <v-text-field
-        v-model="commerce.title"
+        v-model="coupon.title"
         label="Nombre"
       ></v-text-field>
       <label for=""><b>Descripción</b></label>
       <v-text-field
-        v-model="commerce.description"
+        v-model="coupon.description"
         label="Descripción"
         multi-line
       ></v-text-field>
+      <label for=""><b>Terminos y condiciones</b></label>
+      <v-text-field
+        v-model="coupon.terms_and_conditions"
+        label="Terminos y condiciones"
+        multi-line
+      ></v-text-field>
+
+      <label for=""><b>Categorias</b></label>
+      <v-flex xs12>
+        <v-select
+          :items="categories"
+          v-model="selected_categories"
+          label="Seleccione las categorias"
+          multiple
+          max-height="400"
+          persistent-hint
+          item-text="name"
+          item-value="id"
+        ></v-select>
+      </v-flex>
 
       <label for=""><b>Imagen</b></label>
       <div class="trainers__form--photo_container">
@@ -32,9 +67,16 @@
       <v-flex xs12 style="margin: 25px 0; text-align: center;">
         <img :src="url" alt="" width="400px"/>
       </v-flex>
+
+      <v-switch
+        v-if="this.getSuperAdmin()"
+        :label="`Publicar: ${coupon.published ? 'Si' : 'No'}`"
+        v-model="coupon.published"
+      ></v-switch>
+
       <v-btn
-        @click="createCommerce()">Crear</v-btn>
-      <v-btn @click="$router.push({name: 'comercios'})">Cancelar</v-btn>
+        @click="createCoupon()">Crear</v-btn>
+      <v-btn @click="$router.push({name: 'cupones'})">Cancelar</v-btn>
     </section>
   </article>
 </template>
@@ -48,14 +90,35 @@ export default {
       url:'https://s3-us-west-2.amazonaws.com/karrottsportlife/default_image.svg',
       commerces:[],
       commerce_selected: null,
-      commerce:{
-        name: '',
+      categories:[],
+      selected_categories:[],
+      coupon:{
+        title: '',
         description: '',
-        image: null
+        terms_and_conditions: '',
+        image: null,
+        commerce_id: null,
+        published: false
       }
     }
   },
   methods:{
+    findCategories(){
+      try {
+        this.$http.get('categories',
+        ).then(function(response){
+          console.log(response);
+          this.categories = response.body.data
+          console.log("Congrats");
+        },function(response){
+          console.log("Error");
+          console.log(response);
+        })
+      } catch (e) {
+        console.log("Error");
+        console.log(e);
+      }
+    },
     findCommerces(){
       try {
         this.$http.get('commerces/',
@@ -72,27 +135,34 @@ export default {
         console.log(e);
       }
     },
-    validateCommerce(){
-      if(this.commerce.name != '' &&
-         this.commerce.description != '' &&
-         this.commerce.image != null){
+    validateCoupon(){
+      console.log(this.coupon);
+      if(this.coupon.title != '' &&
+         this.coupon.description != '' &&
+         this.coupon.terms_and_conditions != '' &&
+         this.coupon.image != null &&
+         this.coupon.commerce_id != null){
         return true
       } else {
         return false
       }
     },
-    createCommerce(){
-      if(this.validateCommerce()){
+    createCoupon(){
+      if(!this.getSuperAdmin()){
+        this.coupon.commerce_id = this.getCommerceRef()
+      }
+      if(this.validateCoupon()){
         try {
-          this.$http.post('commerces/', {
+          this.$http.post('offers/', {
             data:{
-              attributes: this.commerce
+              attributes: this.coupon,
+              category_ids: this.selected_categories
             }
           }
           ).then(function(response){
             console.log("Update");
             console.log(response);
-            this.$router.push({name: 'comercios'})
+            this.$router.push({name: 'cupones'})
           },function(response){
             console.log("Error");
             console.log(response);
@@ -118,7 +188,7 @@ export default {
       var vm = this
       reader.readAsDataURL(file);
       reader.onload = function () {
-        vm.advertisement.image = reader.result
+        vm.coupon.image = reader.result
       }
     },
   },
@@ -128,7 +198,8 @@ export default {
     },
   },
   mounted(){
-    // this.findCommerces()
+    this.findCategories()
+    this.findCommerces()
   }
 }
 </script>
