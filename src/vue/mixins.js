@@ -7,13 +7,15 @@ Vue.mixin({
       "updateLoader",
       "updateLogin",
       "updateUser",
-      "updatePassword"
+      "updatePassword",
+      "updateServer"
     ]),
     ...mapGetters([
       "getLoader",
       "getLogin",
       "getUser",
-      "getPassword"
+      "getPassword",
+      "getServer"
     ])
   }
 })

@@ -55,12 +55,35 @@ export default {
   },
   methods:{
     login(){
-      if(this.email === this.getUser() && this.password === this.getPassword()){
-        this.updateLogin(false)
-        this.$router.push({name: 'root'})
-      }else{
+      if(this.email != "" && this.password != ""){
+        try {
+          this.$http.post('find_client', {
+            data:{
+              attributes:{
+                email: this.email, password: this.password
+              }
+            }
+          }
+          ).then(function(response){
+            console.log("Create Session");
+            console.log(response);
+            this.updateLogin(false)
+            this.$router.push({name: 'categorias'})
+          },function(response){
+            console.log("Error");
+            console.log(response);
+            this.updateLogin(true)
+            alert('Por favor, verifique los valores indexados')
+          })
+        } catch (e) {
+          console.log("Error");
+          console.log(e);
+          this.updateLogin(true)
+          alert('Por favor, verifique los valores indexados')
+        }
+      } else {
         this.updateLogin(true)
-        alert("El correo o la contraseña son incorrectos")
+        alert('Por favor, verifique los valores indexados')
       }
     }
   }

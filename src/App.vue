@@ -50,12 +50,39 @@
               </v-list-tile-content>
             </v-list-tile>
           </template>
+          <template>
+            <!-- <v-layout
+              row
+              align-center
+            >
+              <v-flex xs6>
+                <v-subheader >
+                  Cerrar Sesión
+                </v-subheader>
+              </v-flex>
+              <v-flex xs6 class="text-xs-right">
+                <v-btn small flat>close</v-btn>
+              </v-flex>
+            </v-layout> -->
+            <v-list-tile
+              @click="updateLogin(true)"
+            >
+              <v-list-tile-action>
+                <v-icon>close</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="grey--text">
+                  Cerrar Sesión
+                </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </template>
         </v-list>
       </v-navigation-drawer>
       <v-toolbar color="red darken-1" app absolute clipped-left style="color: white">
         <v-toolbar-side-icon @click.native="drawer = !drawer" color="white"></v-toolbar-side-icon>
         <!-- <img src="https://ocgdd.s3-us-west-2.amazonaws.com/Carlos-Granados-Logotipo.jpg" alt=""> -->
-        <span class="title ml-3 mr-5">Proomo</span></span>
+        <span class="title ml-3 mr-5">Twenti</span></span>
         <v-spacer></v-spacer>
       </v-toolbar>
       <v-content>
@@ -89,10 +116,10 @@ export default {
         { divider: true },
         { icon: 'view_quilt', text: 'Ofertas', route: 'ofertas' },
         { divider: true },
-        { icon: 'view_quilt', text: 'Productos', route: 'productos' },
-        { divider: true },
+        // { icon: 'view_quilt', text: 'Productos', route: 'productos' },
+        // { divider: true },
         { icon: 'view_quilt', text: 'Notificaciones', route: 'notificaciones' },
-        { divider: true },
+        { divider: true }
         // { icon: 'view_carousel', text: 'Slides', route: 'clients' },
         // { divider: true },
         // { icon: 'remove_from_queue', text: 'Sub menus', route: 'pits' },

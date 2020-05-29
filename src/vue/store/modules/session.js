@@ -2,8 +2,9 @@ const state = {
   language: '',
   loader: false,
   login: true,
-  user: "admin@proomo.com",
-  password: "Pr00m04dm1n"
+  user: "admin@twenti.com",
+  password: "Twent14dm1n",
+  server: "http://192.168.0.7:4000/"
   // user: 'admin@carlosgranadosdentaldesign.com',
   // password: '4dm1nOcgdd'
 }
@@ -23,6 +24,9 @@ const getters = {
   },
   getPassword (state) {
     return state.password
+  },
+  getServer (state){
+    return state.server
   }
 }
 
@@ -41,6 +45,9 @@ const mutations = {
   },
   setPassword: function (state, payload) {
     state.password = payload
+  },
+  setServer: function (state, payload) {
+    state.server = payload
   }
 }
 
@@ -59,6 +66,9 @@ const actions = {
   },
   updatePassword: function ({commit}, payload) {
     commit('setPassword', payload)
+  },
+  updateServer: function ({commit}, payload) {
+    commit('setServer', payload)
   }
 }
 
