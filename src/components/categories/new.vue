@@ -7,6 +7,38 @@
         v-model="category.name"
         label="Título"
       ></v-text-field>
+
+      <v-switch
+        :label="`Es una subcategoria ? ${is_subcategory ? 'Si': 'No'}`"
+        v-model="is_subcategory"
+      ></v-switch>
+      <v-flex xs12 v-if="is_subcategory && categories.length > 0">
+        <label for=""><b>Selecciona la categoria a la que pertenece</b></label>
+        <v-select
+          :items="categories"
+          v-model="selected_category"
+          label="Seleccione la categoria a la que pertenece"
+          max-height="400"
+          persistent-hint
+          item-text="name"
+          item-value="id"
+        ></v-select>
+      </v-flex>
+      <v-radio-group
+        v-if="!is_subcategory"
+        v-model="category.concept_name">
+        <label for=""><b>Esta categoria pertenece a :</b></label>
+        <v-radio
+          key="Producto"
+          label="Producto"
+          value="Producto"
+        ></v-radio>
+        <v-radio
+          key="Servicio"
+          label="Servicio"
+          value="Servicio"
+        ></v-radio>
+      </v-radio-group>
       <label for=""><b>Imagen</b></label>
       <div class="trainers__form--photo_container">
         <label
@@ -40,14 +72,35 @@ export default {
       url_change: false,
       url:'https://s3-us-west-2.amazonaws.com/karrottsportlife/default_image.svg',
       commerces:[],
+      categories:[],
       commerce_selected: null,
+      is_subcategory: false,
+      selected_category: null,
       category:{
         name: '',
-        image: null
+        image: null,
+        principal_category_id: null,
+        concept_name: "Producto"
       }
     }
   },
   methods:{
+    findCategories(){
+      try {
+        this.$http.get('categories',
+        ).then(function(response){
+          console.log(response);
+          this.categories = response.body.data
+          console.log("Congrats");
+        },function(response){
+          console.log("Error");
+          console.log(response);
+        })
+      } catch (e) {
+        console.log("Error");
+        console.log(e);
+      }
+    },
     findCommerces(){
       try {
         this.$http.get('commerces/',
@@ -117,6 +170,19 @@ export default {
     url(){
       this.url_change = true;
     },
+    is_subcategory(){
+      if (this.is_subcategory){
+        console.log();
+        this.findCategories()
+      }
+    },
+    selected_category(){
+      if(this.is_subcategory){
+        this.category.principal_category_id = this.selected_category
+      }else{
+        this.category.principal_category_id = null
+      }
+    }
   },
   mounted(){
     // this.findCommerces()

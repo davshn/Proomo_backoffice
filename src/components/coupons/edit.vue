@@ -1,9 +1,9 @@
 <template>
   <article class="">
-    <h3>Crear Cupón</h3>
+    <h3>Editar Cupón</h3>
     <section >
 
-      <label for=""><b>Categorias</b></label>
+      <label for=""><b>Comercios</b></label>
       <v-flex xs12>
         <v-select
           v-if="getSuperAdmin()"
@@ -34,7 +34,11 @@
         label="Terminos y condiciones"
         multi-line
       ></v-text-field>
-
+      <label for=""><b>Valor del descuento</b></label>
+      <v-text-field
+        v-model="coupon.discount_value"
+        label="Valor del descuento"
+      ></v-text-field>
       <label for=""><b>Categorias</b></label>
       <v-flex xs12>
         <v-select
@@ -98,7 +102,8 @@ export default {
         terms_and_conditions: '',
         image: null,
         commerce_id: null,
-        published: false
+        published: false,
+        discount_value: 0
       }
     }
   },
