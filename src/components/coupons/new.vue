@@ -92,7 +92,7 @@ export default {
     return {
       photo_name: 'No se han seleccionado archivos',
       url_change: false,
-      url:'https://s3-us-west-2.amazonaws.com/karrottsportlife/default_image.svg',
+      url:'https://twenti.s3.us-west-2.amazonaws.com/default_image.svg',
       commerces:[],
       commerce_selected: null,
       categories:[],

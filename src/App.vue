@@ -82,7 +82,7 @@
       <v-toolbar color="red darken-1" app absolute clipped-left style="color: white">
         <v-toolbar-side-icon @click.native="drawer = !drawer" color="white"></v-toolbar-side-icon>
         <!-- <img src="https://ocgdd.s3-us-west-2.amazonaws.com/Carlos-Granados-Logotipo.jpg" alt=""> -->
-        <span class="title ml-3 mr-5">Twenti</span></span>
+        <span class="title ml-3 mr-5">Aibai</span></span>
         <v-spacer></v-spacer>
       </v-toolbar>
       <v-content>

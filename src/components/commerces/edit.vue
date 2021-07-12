@@ -1,6 +1,12 @@
 <template>
   <article class="">
     <h3>Editar Comercio</h3>
+    <section class="sale_modal" style="margin: 20px 0">
+      <label ><b>QR</b></label>
+      <div class="sale_modal__content" style="padding-bottom: 30px;">
+        <vue-qrcode :value="$route.params.id.toString()" scale="10" />
+      </div>
+    </section>
     <section >
       <label for=""><b>Nombre</b></label>
       <v-text-field
@@ -76,9 +82,11 @@
 export default {
   data(){
     return {
+      qr: true,
+      show_qr_modal: false,
       photo_name: 'No se han seleccionado archivos',
       url_change: false,
-      url:'https://s3-us-west-2.amazonaws.com/karrottsportlife/default_image.svg',
+      url:'https://twenti.s3.us-west-2.amazonaws.com/default_image.svg',
       commerces:[],
       commerce_selected: null,
       categories:[],
@@ -190,6 +198,19 @@ export default {
       reader.onload = function () {
         vm.commerce.image = reader.result
       }
+    },
+    showQR(){
+      var vm = this;
+      this.show_qr_modal = true
+      setTimeout(function(){
+        var qrcode = new QRCode(document.getElementById("qrvalidate"));
+        qrcode.makeCode(vm.$route.params.id.toString());
+        vm.qr = !vm.qr;
+        $("canvas").width("90%");
+        $("canvas").css({"margin-left":"auto", "margin-right": "auto"});
+        $("#qrvalidate img").css({"margin-left":"auto", "margin-right": "auto"});
+      }, 500);
+      // qrcode.makeCode('{"data":{"id_user":'+this.getUserId()+',"id_offer":'+this.offer.id+'}}');
     },
   },
   watch:{
