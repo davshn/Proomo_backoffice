@@ -6,12 +6,14 @@
       <v-text-field
         v-model="commerce.name"
         label="Nombre"
+        :rules="[rules.required]"
       ></v-text-field>
       <label for=""><b>Descripción</b></label>
       <v-text-field
         v-model="commerce.description"
         label="Descripción"
         multi-line
+        :rules="[rules.required]"
       ></v-text-field>
       <label for=""><b>Categorias</b></label>
       <v-flex xs12>
@@ -48,11 +50,13 @@
       <v-text-field
         v-model="admin_user.email"
         label="Email"
+        :rules="[rules.required, rules.email]"
       ></v-text-field>
       <label for=""><b>Contraseña</b></label>
       <v-text-field
         v-model="admin_user.password"
         label="Contraseña"
+        :rules="[rules.required]"
       ></v-text-field>
       <v-switch
         v-if="this.getSuperAdmin()"
@@ -86,6 +90,14 @@ export default {
       admin_user:{
         email: '',
         password: ''
+      },
+      rules: {
+        required: value => !!value || 'Campo requerido.',
+        counter: value => value.length <= 20 || 'Max 20 characters',
+        email: value => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || 'E-mail invalido.'
+        },
       }
     }
   },

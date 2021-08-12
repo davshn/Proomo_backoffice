@@ -21,18 +21,21 @@
       <v-text-field
         v-model="coupon.title"
         label="Nombre"
+        :rules="[rules.required]"
       ></v-text-field>
       <label for=""><b>Descripción</b></label>
       <v-text-field
         v-model="coupon.description"
         label="Descripción"
         multi-line
+        :rules="[rules.required]"
       ></v-text-field>
       <label for=""><b>Terminos y condiciones</b></label>
       <v-text-field
         v-model="coupon.terms_and_conditions"
         label="Terminos y condiciones"
         multi-line
+        :rules="[rules.required]"
       ></v-text-field>
       <label for=""><b>Valor del descuento</b></label>
       <v-text-field
@@ -78,13 +81,26 @@
         v-model="coupon.published"
       ></v-switch>
       <v-switch
+        v-if="!coupon.is_online_product"
+        :label="`Aplica para cambio por puntos ?: ${coupon.by_points ? 'Si' : 'No'}`"
+        v-model="coupon.by_points"
+      ></v-switch>
+      <v-text-field
+        v-if="coupon.by_points && !coupon.is_online_product"
+        v-model="coupon.redeem_points"
+        label="Puntos para reclamar el cupón"
+        :rules="[rules.required]"
+      ></v-text-field>
+      <v-switch
+        v-if="!coupon.by_points"
         :label="`Es un producto de pago online ?: ${coupon.is_online_product ? 'Si' : 'No'}`"
         v-model="coupon.is_online_product"
       ></v-switch>
       <v-text-field
-        v-if="coupon.is_online_product"
+        v-if="coupon.is_online_product && !coupon.by_points"
         v-model="coupon.price"
         label="Precio del producto"
+        :rules="[rules.required]"
       ></v-text-field>
       <v-btn
         @click="editCoupon()">Editar</v-btn>
@@ -113,7 +129,12 @@ export default {
         published: false,
         discount_value: 0,
         is_online_product: false,
-        price: 0
+        price: 0,
+        by_points: false,
+        redeem_points: 0
+      },
+      rules: {
+        required: value => !!value || 'Campo requerido.',
       }
     }
   },

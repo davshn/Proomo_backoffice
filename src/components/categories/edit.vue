@@ -6,6 +6,7 @@
       <v-text-field
         v-model="category.name"
         label="Título"
+        :rules="[rules.required]"
       ></v-text-field>
 
       <v-switch
@@ -81,6 +82,9 @@ export default {
         image: null,
         principal_category_id: null,
         concept_name: "Producto"
+      },
+      rules: {
+        required: value => !!value || 'Campo requerido.',
       }
     }
   },
