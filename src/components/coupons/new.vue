@@ -72,6 +72,15 @@
       <v-flex xs12 style="margin: 25px 0; text-align: center;">
         <img :src="url" alt="" width="400px"/>
       </v-flex>
+      <v-switch
+        :label="`Es un producto de pago online ?: ${coupon.is_online_product ? 'Si' : 'No'}`"
+        v-model="coupon.is_online_product"
+      ></v-switch>
+      <v-text-field
+        v-if="coupon.is_online_product"
+        v-model="coupon.price"
+        label="Precio del producto"
+      ></v-text-field>
 
       <v-switch
         v-if="this.getSuperAdmin()"
@@ -104,7 +113,9 @@ export default {
         image: null,
         commerce_id: null,
         published: false,
-        discount_value: 0
+        discount_value: 0,
+        is_online_product: false,
+        price: 0
       }
     }
   },

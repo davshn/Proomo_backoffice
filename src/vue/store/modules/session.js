@@ -4,7 +4,8 @@ const state = {
   login: true,
   user: "admin@twenti.com",
   password: "Twent14dm1n",
-  server: "http://192.168.0.7:4000/",
+  // server: "http://192.168.0.7:4000/",
+  server: "",
   super_admin: true,
   commerce_ref: null
   // user: 'admin@carlosgranadosdentaldesign.com',

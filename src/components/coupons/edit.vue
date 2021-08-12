@@ -77,7 +77,15 @@
         :label="`Publicar: ${coupon.published ? 'Si' : 'No'}`"
         v-model="coupon.published"
       ></v-switch>
-
+      <v-switch
+        :label="`Es un producto de pago online ?: ${coupon.is_online_product ? 'Si' : 'No'}`"
+        v-model="coupon.is_online_product"
+      ></v-switch>
+      <v-text-field
+        v-if="coupon.is_online_product"
+        v-model="coupon.price"
+        label="Precio del producto"
+      ></v-text-field>
       <v-btn
         @click="editCoupon()">Editar</v-btn>
       <v-btn @click="$router.push({name: 'cupones'})">Cancelar</v-btn>
@@ -103,7 +111,9 @@ export default {
         image: null,
         commerce_id: null,
         published: false,
-        discount_value: 0
+        discount_value: 0,
+        is_online_product: false,
+        price: 0
       }
     }
   },

@@ -52,7 +52,7 @@
         <p v-if="!url_change">{{ photo_name }}</p>
       </div>
       <v-flex xs12 style="margin: 25px 0; text-align: center;">
-        <img :src="url" alt="" width="400px"/>
+        <img :src="url" alt="" width="400px" style="width: 400px; min-height: 200px;"/>
       </v-flex>
 
       <label for=""><b>Usuario administrador</b></label>
@@ -72,8 +72,20 @@
         v-model="commerce.published"
       ></v-switch>
       <v-btn
-        @click="editCommerce()">Editar</v-btn>
+        @click="openModal = true">Editar</v-btn>
       <v-btn @click="$router.push({name: 'comercios'})">Cancelar</v-btn>
+    </section>
+    <section
+      v-if="openModal"
+      class="validate_modal">
+      <section
+        class="validate_modal__content">
+        <p>¿Esta seguro que desea realizar los cambios?</p>
+        <div class="validate_modal__buttons">
+          <v-btn @click="editCommerce()">Si</v-btn>
+          <v-btn @click="openModal = false">No</v-btn>
+        </div>
+      </section>
     </section>
   </article>
 </template>
@@ -82,6 +94,7 @@
 export default {
   data(){
     return {
+      openModal:false,
       qr: true,
       show_qr_modal: false,
       photo_name: 'No se han seleccionado archivos',
@@ -170,14 +183,17 @@ export default {
           ).then(function(response){
             console.log("Update");
             console.log(response);
+            this.openModal = false
             this.$router.push({name: 'comercios'})
           },function(response){
             console.log("Error");
             console.log(response);
+            this.openModal = false
           })
         } catch (e) {
           console.log("Error");
           console.log(e);
+          this.openModal = false
         }
       } else {
         alert('Por favor, verifique los valores indexados')
@@ -224,3 +240,31 @@ export default {
   }
 }
 </script>
+<style>
+  .validate_modal{
+    position: fixed;
+    z-index: 99;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .validate_modal__content{
+    background-color: #fff;
+    border-radius: 5px;
+    width: 300px;
+    padding: 25px;
+    text-align:center;
+  }
+  .validate_modal__buttons{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+</style>
